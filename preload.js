@@ -9,4 +9,15 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const type of ['chrome', 'node', 'electron']) {
     replaceText(`${type}-version`, process.versions[type])
   }
+  const fs = require('fs');
+  fs.readdir("./data", function(err, items) {
+    const dirs = document.getElementById("directories");
+    let ul = document.createElement('ul');
+    for (let i=0; i<items.length; i++) {
+        let li = document.createElement('li');
+        li.innerText = items[i];
+        ul.append(li);
+    }
+    dirs.append(ul);
+  });
 })
