@@ -1,6 +1,31 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, Menu, dialog} = require('electron')
 const path = require('path')
+
+function appMenu(app, mainWindow) {
+  return (
+    [
+      {
+        label: 'File',
+        submenu: [
+          {
+            label: 'Click me',
+            click() {
+                const newShotDialog = {
+                  type: 'info',
+                  title: 'Hello',
+                  message: 'Do you like this?',
+                  buttons: ['Yes', 'No']
+                }
+                dialog.showMessageBox(newShotDialog, function(index) {
+              })
+             },
+          },
+        ],
+      },
+    ]
+  );
+}
 
 function createWindow () {
   // Create the browser window.
@@ -11,6 +36,9 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js')
     }
   })
+  const template = appMenu(app, mainWindow);
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')

@@ -12,12 +12,15 @@ window.addEventListener('DOMContentLoaded', () => {
   const fs = require('fs');
   fs.readdir("./data", function(err, items) {
     const dirs = document.getElementById("directories");
-    let ul = document.createElement('ul');
+    //let ul = document.createElement('ul');
     for (let i=0; i<items.length; i++) {
-        let li = document.createElement('li');
-        li.innerText = items[i];
-        ul.append(li);
+        //let li = document.createElement('li');
+        //li.innerText = items[i];
+        let btn = document.createElement('button');
+        btn.innerText = items[i];
+        dirs.append(btn);
+        //ul.append(li);
     }
-    dirs.append(ul);
+    //dirs.append(ul);
   });
 })
