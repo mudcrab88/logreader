@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, dialog} = require('electron')
-const path = require('path')
+const {app, BrowserWindow, Menu, dialog} = require('electron');
+const path = require('path');
+const fs = require('fs');
 
 function appMenu(app, mainWindow) {
   return (
@@ -9,16 +10,10 @@ function appMenu(app, mainWindow) {
         label: 'File',
         submenu: [
           {
-            label: 'Click me',
+            label: 'Select log directory',
             click() {
-                const newShotDialog = {
-                  type: 'info',
-                  title: 'Hello',
-                  message: 'Do you like this?',
-                  buttons: ['Yes', 'No']
-                }
-                dialog.showMessageBox(newShotDialog, function(index) {
-              })
+                let dir = dialog.showOpenDialogSync(mainWindow, { properties: ['openDirectory'] });
+                fs.writeFileSync("settings.txt", dir);
              },
           },
         ],
