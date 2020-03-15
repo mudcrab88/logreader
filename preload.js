@@ -9,9 +9,9 @@ window.addEventListener('DOMContentLoaded', () => {
     for (const type of ['chrome', 'node', 'electron']) {
         replaceText(`${type}-version`, process.versions[type])
     }
-  //let logDir = fs.readFileSync("settings.txt", "utf8" );
     const fs = require('fs');
-    fs.readdir("./data", function(err, items) {
+    let logDir = fs.readFileSync("settings.txt", "utf8" );
+    fs.readdir( logDir , function(err, items) {
         const dirs = document.getElementById("directories");
         //let ul = document.createElement('ul');
         for (let i=0; i<items.length; i++) {
