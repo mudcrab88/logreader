@@ -29,8 +29,8 @@ fs.readdir( logDir , function(err, items) {
     {
         if (items[i]>"2020-00-00"&&items[i]<"3000-00-00")
         {
-            let sql_insert = "INSERT INTO directories(dirname) VALUES('"+items[i]+"')";
-            db.run(sql_insert, [], function(err) {
+            let sqlInsert = "INSERT INTO directories(dirname) VALUES('"+items[i]+"')";
+            db.run(sqlInsert, [], function(err) {
                 console.log("Обработка папки "+items[i]);
                 if (err) 
                 {
@@ -38,6 +38,12 @@ fs.readdir( logDir , function(err, items) {
                 }
                 console.log("Directory "+items[i]+" inserted");
             });
+            dirFiles = fs.readdirSync(logDir+"\\"+items[i]);
+            for (let j=0; j<dirFiles.length; j++)
+            {
+                fs.readFileSync(logDir+"\\"+items[i]+"\\"+dirFiles[i], "utf8" );
+                console.log(dirFiles[i]);
+            }
         }
     }
 });
