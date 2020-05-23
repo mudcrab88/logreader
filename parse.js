@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
+const DOMParser = require('xmldom').DOMParser;
 let logDir = fs.readFileSync("settings.txt", "utf8" );
 //подключение к БД
 let db = new sqlite3.Database('data.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -24,29 +25,33 @@ db.all(sql_select, [], (err, rows) => {
     });
 });*/
 //чтение каталога и вставка недостающего в базу
-fs.readdir( logDir , function(err, items) {
-    for (let i=0; i<items.length; i++)
+//fs.readdir( logDir , function(err, items) {
+let items = fs.readdirSync( logDir );
+for (let i=0; i<items.length; i++)
+{
+    if (items[i]>"2020-00-00"&&items[i]<"3000-00-00")
     {
-        if (items[i]>"2020-00-00"&&items[i]<"3000-00-00")
+        console.log("Обработка папки "+items[i]);
+        dirFiles = fs.readdirSync(logDir+"\\"+items[i]);
+        for (let j=0; j<dirFiles.length; j++)
         {
-            let sqlInsert = "INSERT INTO directories(dirname) VALUES('"+items[i]+"')";
+            let fileName = logDir+"\\"+items[i]+"\\"+dirFiles[j];
+            let file = fs.readFileSync( fileName, "utf8" );
+            let doc = new DOMParser().parseFromString(file, "text/xml");
+            console.log(doc.getElementsByTagName("number")[0].childNodes[0].nodeValue);
+            console.log(doc.getElementsByTagName("RID")[0].childNodes[0].nodeValue);
+            let sqlInsert = "INSERT INTO files(name, dir, rootpath) VALUES('"+dirFiles[j]+"','"+items[i]+"','"+logDir+"')";
             db.run(sqlInsert, [], function(err) {
-                console.log("Обработка папки "+items[i]);
                 if (err) 
                 {
-                    return console.error("Не удалось вставить запись:"+err.message);
+                    return console.error("Не удалось вставить запись:"+dirFiles[j]+" Ошибка:"+err.message);
                 }
-                console.log("Directory "+items[i]+" inserted");
+                console.log("File "+dirFiles[j]+" inserted");
             });
-            dirFiles = fs.readdirSync(logDir+"\\"+items[i]);
-            for (let j=0; j<dirFiles.length; j++)
-            {
-                fs.readFileSync(logDir+"\\"+items[i]+"\\"+dirFiles[i], "utf8" );
-                console.log(dirFiles[i]);
-            }
         }
     }
-});
+}
+//});
 //отключение от БД
 db.close((err) => {
     if (err) 
