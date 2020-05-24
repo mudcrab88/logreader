@@ -10,18 +10,77 @@ window.addEventListener('DOMContentLoaded', () => {
         replaceText(`${type}-version`, process.versions[type])
     }
     const fs = require('fs');
-    let logDir = fs.readFileSync("settings.txt", "utf8" );
-    fs.readdir( logDir , function(err, items) {
-        const dirs = document.getElementById("directories");
-        //let ul = document.createElement('ul');
-        for (let i=0; i<items.length; i++) {
-            //let li = document.createElement('li');
-            //li.innerText = items[i];
-            let btn = document.createElement('button');
-            btn.innerText = items[i];
-            dirs.append(btn);
-            //ul.append(li);
+    const sqlite3 = require('sqlite3').verbose();
+
+    let filesTable = document.getElementById("files");
+    let customerAccCode = document.getElementById("facial_acc");
+    let searchButton = document.getElementById("search");
+
+    let db = new sqlite3.Database('data.db', sqlite3.OPEN_READWRITE, (err) => {
+        if (err) 
+        {
+            console.error(err.message);
         }
-    //dirs.append(ul);
-  });
+        else
+        {
+            console.log('Connected to database.');
+        }
+    });
+    let sql_select = "SELECT * FROM files ORDER BY name";
+    db.all(sql_select, [], (err, rows) => {
+        if (err)
+        {
+            console.error(err.message);
+        }
+        rows.forEach((row) => {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            td.innerText = row.name;
+            tr.append(td);
+            td = document.createElement('td');
+            td.innerText = row.docnumber;
+            tr.append(td);
+            td = document.createElement('td');
+            td.innerText = row.facial_acc;
+            tr.append(td);
+            td = document.createElement('td');
+            td.innerText = row.purchase_id;
+            tr.append(td);
+            filesTable.append(tr);
+        });
+    });
+    searchButton.onclick = function() {
+        let begin = "SELECT * FROM files ";
+        let where = "";
+        let order = " ORDER BY name";
+        if (customerAccCode.value != "")
+        {
+            where = "WHERE facial_acc="+customerAccCode.value;
+        }
+        let select_query = begin + where + order;
+        console.log(select_query);
+        filesTable.innerHTML = "";
+        db.all(select_query, [], (err, rows) => {
+            if (err)
+            {
+                console.error(err.message);
+            }
+            rows.forEach((row) => {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.innerText = row.name;
+                tr.append(td);
+                td = document.createElement('td');
+                td.innerText = row.docnumber;
+                tr.append(td);
+                td = document.createElement('td');
+                td.innerText = row.facial_acc;
+                tr.append(td);
+                td = document.createElement('td');
+                td.innerText = row.purchase_id;
+                tr.append(td);
+                filesTable.append(tr);
+            });
+        });
+    }
 })

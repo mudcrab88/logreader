@@ -13,19 +13,7 @@ let db = new sqlite3.Database('data.db', sqlite3.OPEN_READWRITE, (err) => {
         console.log('Connected to database.');
     }
 });
-//выборка из таблицы с директориями
-/*let sql_select = "SELECT id, dirname from directories";
-db.all(sql_select, [], (err, rows) => {
-    if (err)
-    {
-        throw err;
-    }
-    rows.forEach((row) => {
-        console.log(row.id+" "+row.dirname);
-    });
-});*/
-//чтение каталога и вставка недостающего в базу
-//fs.readdir( logDir , function(err, items) {
+//обработка файлов
 let items = fs.readdirSync( logDir );
 for (let i=0; i<items.length; i++)
 {
