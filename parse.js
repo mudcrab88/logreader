@@ -38,9 +38,17 @@ for (let i=0; i<items.length; i++)
             let fileName = logDir+"\\"+items[i]+"\\"+dirFiles[j];
             let file = fs.readFileSync( fileName, "utf8" );
             let doc = new DOMParser().parseFromString(file, "text/xml");
-            console.log(doc.getElementsByTagName("number")[0].childNodes[0].nodeValue);
-            console.log(doc.getElementsByTagName("RID")[0].childNodes[0].nodeValue);
-            let sqlInsert = "INSERT INTO files(name, dir, rootpath) VALUES('"+dirFiles[j]+"','"+items[i]+"','"+logDir+"')";
+            let docNumber = doc.getElementsByTagName("number")[0].childNodes[0].nodeValue;
+            let rid = doc.getElementsByTagName("RID")[0].childNodes[0].nodeValue;
+            let object = doc.getElementsByTagName("object")[0].childNodes[0].nodeValue;
+            let purchaseID = doc.getElementsByTagName("purchaseID")[0].childNodes[0].nodeValue;
+            let price = doc.getElementsByTagName("price")[0].childNodes[0].nodeValue;
+            let customerINN = doc.getElementsByTagName("ns2:inn")[0].childNodes[0].nodeValue;
+            let customerName = doc.getElementsByTagName("ns2:name")[0].childNodes[0].nodeValue;
+            let customerAccCode = doc.getElementsByTagName("ns2:code")[0].childNodes[0].nodeValue;
+            let sqlInsert = "INSERT INTO files(name, dir, rootpath, docnumber, rid, purchase_id, object, price, customer_inn, customer_name, facial_acc)"
+            +"VALUES('"+dirFiles[j]+"','"+items[i]+"','"+logDir+"','"+docNumber+"','"+rid+"','"+purchaseID+"','"+object+"',"+price
+            +",'"+customerINN+"','"+customerName+"',"+customerAccCode+")";
             db.run(sqlInsert, [], function(err) {
                 if (err) 
                 {
