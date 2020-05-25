@@ -32,22 +32,10 @@ window.addEventListener('DOMContentLoaded', () => {
         {
             console.error(err.message);
         }
-        rows.forEach((row) => {
-            let tr = document.createElement('tr');
-            let td = document.createElement('td');
-            td.innerText = row.name;
-            tr.append(td);
-            td = document.createElement('td');
-            td.innerText = row.docnumber;
-            tr.append(td);
-            td = document.createElement('td');
-            td.innerText = row.facial_acc;
-            tr.append(td);
-            td = document.createElement('td');
-            td.innerText = row.purchase_id;
-            tr.append(td);
-            filesTable.append(tr);
-        });
+        else
+        {
+            createTable(rows);
+        }
     });
     searchButton.onclick = function() {
         let begin = "SELECT * FROM files ";
@@ -65,22 +53,34 @@ window.addEventListener('DOMContentLoaded', () => {
             {
                 console.error(err.message);
             }
-            rows.forEach((row) => {
-                let tr = document.createElement('tr');
-                let td = document.createElement('td');
-                td.innerText = row.name;
-                tr.append(td);
-                td = document.createElement('td');
-                td.innerText = row.docnumber;
-                tr.append(td);
-                td = document.createElement('td');
-                td.innerText = row.facial_acc;
-                tr.append(td);
-                td = document.createElement('td');
-                td.innerText = row.purchase_id;
-                tr.append(td);
-                filesTable.append(tr);
-            });
+            else
+            {
+                createTable(rows);
+            }
+        });
+    }
+
+    function createTable(rows)
+    {
+        rows.forEach((row) => {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            let a = document.createElement('a');
+            a.href= row.rootpath +"\\"+row.dir+"\\"+row.name;
+            a.innerText = row.name;
+            a.target="_blank";
+            td.append(a);
+            tr.append(td);
+            td = document.createElement('td');
+            td.innerText = row.docnumber;
+            tr.append(td);
+            td = document.createElement('td');
+            td.innerText = row.facial_acc;
+            tr.append(td);
+            td = document.createElement('td');
+            td.innerText = row.purchase_id;
+            tr.append(td);
+            filesTable.append(tr);
         });
     }
 })
