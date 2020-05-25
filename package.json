@@ -1,26 +1,26 @@
 {
-  "name": "logreader",
-  "version": "1.0.0",
-  "description": "Electron log reader",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "postinstall": "install-app-deps"
-  },
-  "repository": "https://github.com/mudcrab88/logreader",
-  "keywords": [
-    "Electron",
-    "log",
-    "reader"
-  ],
-  "author": "Nickolay Kuznetsov",
-  "license": "CC0-1.0",
-  "devDependencies": {
-    "electron": "^8.1.1",
-    "electron-builder": "^22.6.1"
-  },
-  "dependencies": {
-    "sqlite3": "^4.2.0",
-    "xmldom": "^0.3.0"
-  }
+    "name": "logreader",
+    "version": "1.0.0",
+    "description": "Electron log reader",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "postinstall": "install-app-deps"
+    },
+   "repository": "https://github.com/mudcrab88/logreader",
+    "keywords": [
+        "Electron",
+        "log",
+        "reader"
+    ],
+    "author": "Nickolay Kuznetsov",
+    "license": "CC0-1.0",
+    "devDependencies": {
+        "electron": "^8.1.1",
+        "electron-builder": "^22.6.1"
+    },
+    "dependencies": {
+        "sqlite3": "^4.2.0",
+        "xmldom": "^0.3.0"
+    }
 }

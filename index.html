@@ -9,8 +9,19 @@
   </head>
   <body>
     <h1>Логи сервера Tomcat</h1>
-    Лицевой счет:<input type="text" size="10" id = "facial_acc">
-    <button id = "search">Поиск</button>
+    <p>
+       <label for = "facial_acc">Лицевой счет:</label>
+        <input type="text" size="10" id = "facial_acc" pattern="[0-9]{9}">
+        <label for = "purchase_id"> ИКЗ:</label>
+        <input type="text" size="40" id = "purchase_id">
+    </p>
+    <p>
+        <label for = "date"> Дата:</label>
+        <input type="date" size="40" id = "date" value = "2020-01-01">
+        <label for = "rid"> RID:</label>
+        <input type="text" size="40" id = "rid">
+        <button id = "search">Поиск</button>
+    </p>
     <table border = 1 id = "files" width ="90%"> </table>
     <div id = "directories"> </div>
     <!-- You can also require other files to run in this process -->

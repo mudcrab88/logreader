@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let filesTable = document.getElementById("files");
     let customerAccCode = document.getElementById("facial_acc");
     let searchButton = document.getElementById("search");
+    let purchaseId = document.getElementById("purchase_id");
 
     let db = new sqlite3.Database('data.db', sqlite3.OPEN_READWRITE, (err) => {
         if (err) 
@@ -26,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
             console.log('Connected to database.');
         }
     });
-    let sql_select = "SELECT * FROM files ORDER BY name";
+    let sql_select = "SELECT * FROM files ORDER BY name DESC LIMIT 100";
     db.all(sql_select, [], (err, rows) => {
         if (err)
         {
@@ -40,12 +41,21 @@ window.addEventListener('DOMContentLoaded', () => {
     searchButton.onclick = function() {
         let begin = "SELECT * FROM files ";
         let where = "";
+        let and = "";
         let order = " ORDER BY name";
         if (customerAccCode.value != "")
         {
             where = "WHERE facial_acc="+customerAccCode.value;
         }
-        let select_query = begin + where + order;
+        else
+        {
+            where = "WHERE (1=1)";
+        }
+        if (purchaseId.value != "")
+        {
+            and = " AND purchase_id LIKE '%"+purchaseId.value+"%' ";
+        }
+        let select_query = begin + where + and + order;
         console.log(select_query);
         filesTable.innerHTML = "";
         db.all(select_query, [], (err, rows) => {
@@ -72,13 +82,13 @@ window.addEventListener('DOMContentLoaded', () => {
             td.append(a);
             tr.append(td);
             td = document.createElement('td');
-            td.innerText = row.docnumber;
+            td.innerText = "№: " + row.docnumber + "\nЦена: " + row.price.toFixed(2)+ "\nОбъект:" + row.object;
             tr.append(td);
             td = document.createElement('td');
-            td.innerText = row.facial_acc;
+            td.innerText = "Л/с: "+row.facial_acc + "\nЗаказчик: " + row.customer_name;
             tr.append(td);
             td = document.createElement('td');
-            td.innerText = row.purchase_id;
+            td.innerText = "ИКЗ: " + row.purchase_id + "\nRID:" + row.rid;
             tr.append(td);
             filesTable.append(tr);
         });
