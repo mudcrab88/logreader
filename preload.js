@@ -16,6 +16,9 @@ window.addEventListener('DOMContentLoaded', () => {
     let customerAccCode = document.getElementById("facial_acc");
     let searchButton = document.getElementById("search");
     let purchaseId = document.getElementById("purchase_id");
+    let rid = document.getElementById("rid");
+    let resultMessage = document.getElementById("resultMessage");
+    let date = document.getElementById("date");
 
     let db = new sqlite3.Database('data.db', sqlite3.OPEN_READWRITE, (err) => {
         if (err) 
@@ -55,17 +58,26 @@ window.addEventListener('DOMContentLoaded', () => {
         {
             and = " AND purchase_id LIKE '%"+purchaseId.value+"%' ";
         }
+        if (rid.value != "")
+        {
+            and = " AND rid LIKE '%"+rid.value+"%' ";
+        }
+        if (date.value != "")
+        {
+            and = " AND name LIKE '"+date.value+"%' ";
+        }
         let select_query = begin + where + and + order;
-        console.log(select_query);
         filesTable.innerHTML = "";
         db.all(select_query, [], (err, rows) => {
             if (err)
             {
                 console.error(err.message);
+                resultMessage.innerHTML = "ОШИБКА: "+ err.message;
             }
             else
             {
                 createTable(rows);
+                resultMessage.innerHTML = "Количество найденных записей: " + rows.length;
             }
         });
     }
