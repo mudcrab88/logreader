@@ -16,6 +16,24 @@ function appMenu(app, mainWindow) {
                 fs.writeFileSync("settings.txt", dir);
              },
           },
+          {
+            label: 'Save file',
+            click() {
+                let activeWindow = BrowserWindow.getFocusedWindow();
+                let dir = dialog.showSaveDialogSync(activeWindow, { properties: ['createDirectory'] });
+                activeWindow.webContents.savePage( dir, 'HTMLComplete').then(() => {
+                    console.log('Page was saved successfully.')
+                }).catch(err => {
+                   console.log(err)
+                });
+             },
+          },
+          {
+            label: 'Quit',
+            click() {
+                mainWindow.close(); 
+             },
+          },
         ],
       },
     ]
@@ -27,6 +45,7 @@ function createWindow () {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        backgroundColor: '#FFFFE0',
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
