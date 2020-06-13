@@ -27,24 +27,36 @@ class Purchase
         let elem = this.doc.getElementsByTagName(tag)[0];
         return ( typeof(elem)=="undefined" ) ? 0 : elem.childNodes[0].nodeValue;
     }
-    insertRecord()
+    async insertRecord()
     {
-        this.db.run("INSERT INTO files(name, dir, rootpath, docnumber, rid, purchase_id, object, price, customer_inn, customer_name, facial_acc) VALUES "
-        +"($file, $dir, $root, $docnumber, $rid, $obj, $purchaseID, $price, $customerINN, $name, $facialAccCls)",
-            {
-                $file: this.file,
-                $dir: this.dir,
-                $root: this.root,
-                $docnumber: this.docnumber,
-                $rid: this.rid,
-                $obj: this.obj,
-                $purchaseID: this.purchaseID,
-                $price: this.price,
-                $customerINN: this.customerINN,
-                $name: this.name,
-                $facialAccCls: this.facialAccCls,
-            }
-        );
-    }
+        try 
+        {
+            await new Promise((resolve, reject) => {
+                this.db.run('INSERT INTO files(name, dir, rootpath, docnumber, rid, purchase_id, object, price, customer_inn, customer_name, facial_acc) VALUES ($file, $dir, $root, $docnumber, $rid, $purchaseID, $obj, $price, $customerINN, $name, $facialAccCls)',
+                {
+                    $file: this.file,
+                    $dir: this.dir,
+                    $root: this.root,
+                    $docnumber: this.docnumber,
+                    $rid: this.rid,
+                    $obj: this.obj,
+                    $purchaseID: this.purchaseID,
+                    $price: this.price,
+                    $customerINN: this.customerINN,
+                    $name: this.name,
+                    $facialAccCls: this.facialAccCls,
+                },
+                err => {
+                    if (err)
+                        reject(err);
+                    resolve();
+                });
+            });
+        }
+        catch (err)
+        {
+            console.error(err.message + " " +this.file);
+        }
+}
 }
 module.exports = Purchase;
