@@ -56,15 +56,15 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         if (purchaseId.value != "")
         {
-            and = " AND purchase_id LIKE '%"+purchaseId.value+"%' ";
+            and += " AND purchase_id LIKE '%"+purchaseId.value+"%' ";
         }
         if (rid.value != "")
         {
-            and = " AND rid LIKE '%"+rid.value+"%' ";
+            and += " AND rid LIKE '%"+rid.value+"%' ";
         }
         if (date.value != "")
         {
-            and = " AND name LIKE '"+date.value+"%' ";
+            and += " AND name LIKE '"+date.value+"%' ";
         }
         let select_query = begin + where + and + order;
         filesTable.innerHTML = "";

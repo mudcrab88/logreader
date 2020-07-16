@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+﻿const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const DOMParser = require('xmldom').DOMParser;
 let logDir = fs.readFileSync("settings.txt", "utf8" );
@@ -34,7 +34,7 @@ else
     let items = fs.readdirSync( logDir );
     for (const dir of items)
     {
-        if (dir>"2020-00-00"&&dir<"3000-00-00")
+        if (dir>"2020-07-00"&&dir<"3000-00-00")
         {
             console.log("Обработка папки "+dir);
             dirFiles = fs.readdirSync(logDir+"\\"+dir);
