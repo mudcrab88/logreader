@@ -1,4 +1,4 @@
-﻿const periodBegin = "2020-08-10";
+﻿const periodBegin = "2020-08-20";
 const periodEnd = "3000-00-00";
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');

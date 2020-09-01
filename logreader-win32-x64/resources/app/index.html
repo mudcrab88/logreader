@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Просмотр логов</title>
+  </head>
+  <body>
+    <h1>Логи сервера Tomcat</h1>
+    <p>
+       <label for = "facial_acc">Лицевой счет:</label>
+        <input type="text" size="10" id = "facial_acc" pattern="[0-9]{9}">
+        <label for = "purchase_id"> ИКЗ:</label>
+        <input type="text" size="44" id = "purchase_id">
+    </p>
+    <p>
+        <label for = "date"> Дата:</label>
+        <input type="date" size="20" id = "date" value = "2020-01-01">
+        <label for = "rid"> RID:</label>
+        <input type="text" size="46" id = "rid">
+    </p>
+    <button id = "search" color = "blue">Поиск</button>
+    <div id = "resultMessage" color = "red"></div>
+    <table border = 1 id = "files" width ="90%"> </table>
+    <div id = "directories"> </div>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>
